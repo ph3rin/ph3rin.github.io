@@ -6,4 +6,6 @@ title: "This i a draft"
 
 Some text.
 
-$$$$
+$$
+x^2
+$$
