@@ -6,4 +6,4 @@ title: "This i a draft"
 
 Some text.
 
-$$Broken math$$
+$$$$
