@@ -64,8 +64,58 @@ The aforementioned method for addition and multiplication still works here, but 
 
 Things becomes tricky when we start dealing with negative numbers. When we humans write negative numbers, we just stick a negative sign ("-") in front of a number to indicate that it is negative.
 
-Arguably we could do the same thing in computers. We could first ignore the sign, and write down the number using the binary notation of a non-negative numbers, then add a bit to the left which represents the sign: if the sign is "-", we use $1$, otherwise we use $0$.
+Arguably we could do the same thing in computers: reserving 1 bit for the sign, and use the rest to represent the value. If we are to represent $-42$ in this manner using a 8 bit integer, then first use 7 bit to represent 42 ($0101010$), then append 1 to indicate that the value is negative: $\boxed{1}0101010$.
 
-Take $-42$ for example. We first ignore the sign, and represent $42$ in binary, which gives us $101010$. Then since the sign is negative, we add a $1$ to the left: $\boxed{1}101010$.
+But this is not a good idea if we are to do arithmetic. Say we want to add up $42$ and $-42$. Our intuition tell us that the result would be zero. But it isn't if you were to carry out the binary calculation yourself:
+
+$$
+\begin{array} {rr} & & & & & & & &  \\ 
+    & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+  + & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\ \hline
+    & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 0 \\
+\end{array}
+$$
+
+Oops.
+
+Luckily, computer scientists have came up with a better solution: two's complement representation.
+
+To represent a negative integer in two's complement, first write its positive counterpart in binary. As usual, 42 would be $00101010$.
+
+Then, we flip all the bits in that number (1 becomes 0, 0 becomes 1):
+
+$$00101010 \to 11010101$$
+
+Finally, we add 1 to the result:
+
+$$
+\begin{array} {rr} & & & & & & & &  \\ 
+    & 1 & 1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+  + &   &   &   &   &   &   &   & 1 \\ \hline
+    & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 \\
+\end{array}
+$$
+
+And viola, $11010110$ is the (8 bit) two's complement representation of $-42$.
+
+Now let us add $42$ and $-42$ together:
+
+$$
+\begin{array} {rr} & & & & & & & &  \\ 
+    & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+  + & 1 & 1 & 0 & 1 & 0 & 1 & 1 & 0 \\ \hline
+  1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+\end{array}
+$$
+
+Now, this is still not zero, you might argue. But note that we are using only 8 bits to represent our integer. Since the result here is 9 bits, the leftmost bit is discarded, leaving us only $00000000$.
+
+## Why does this work?
+
+If this is the first time you come across this, you might be wondering: why on earth would this thing work? All those bit-flipping, adding-one, and discarding-bit stuff sounds completely arbitrary.
+
+Don't worry. There is (always) an explanation.
+
+Let us first talk about what does the discarding the first bit mean.
 
 [^1]: Or more precisely, non-negative integers.
