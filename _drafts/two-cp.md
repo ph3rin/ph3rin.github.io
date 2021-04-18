@@ -54,7 +54,7 @@ The above rule can work for arbitarily large integers, but we programmers usuall
 
 We first study the case of non-negative integers. (And since they are 8-bits, they are just `uint8_t`).
 
-To represent an unsigned integer in 8 bits, we simply write down its binary notation. If there less than 8 bits in the notation, we append 0-s to the left to fill the gap. For example, $42$ has $6$ bits, so we append two 0-s to the left to make it 8 bits:
+To represent an unsigned integer in 8 bits, we simply write down its binary notation. If there less than 8 bits in the notation, we padd it with 0-s on the left. For example, $42$ has $6$ bits, so we append two 0-s to the left to make it 8 bits:
 
 $$101010 \to 00101010$$
 
